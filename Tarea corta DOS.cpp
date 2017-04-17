@@ -1,4 +1,4 @@
-ï»¿#include <iostream>
+#include <iostream>
 #include <fstream>
 #include <string>
 #include <stdio.h>
@@ -7,44 +7,271 @@
 #include <sstream>
 #include <map>
 #include <cmath> 
+#include <typeinfo>
 
 using namespace std;
+
+
+//////////////////////////////////////////////////////////ARBOL BINARIO DE BUSQUEDA//////////////////////////////////////////////////////////
+class NodoBinario{
+	public:
+		NodoBinario(){
+		}
+		/*
+		NodoBinario(int v){
+		valor = v;
+		Hizq = NULL;
+		Hder = NULL;
+		}
+		*/
+		
+		NodoBinario(string v, NodoBinario*i, NodoBinario*d){
+		valor = v;
+		Hizq = i;
+		Hder = d;
+		}
+		
+		NodoBinario(string v){
+		valor = v;
+		Hizq = NULL;
+		Hder = NULL;
+		}
+		
+		//void InsertaBinario(string num);
+		void InsertaBinario(int num);
+		//void InsertaBinario(NodoBinario num);
+		
+		string getValor(){
+			cout<<valor<<endl;
+			return valor;
+		}
+		void setValor(string v){
+			cout<<"Aquí hay un " <<valor<<endl;
+			valor = v;
+		}
+		
+		void setHizq(NodoBinario * izq){
+			Hizq = izq;
+		}
+		void setHder(NodoBinario* der){
+			Hder = der;
+			cout<<Hder->valor<<endl;
+		}
+		
+		
+		
+	private:
+		string valor;
+		NodoBinario * Hizq;
+		NodoBinario * Hder;
+	friend class Binario;
+	friend class lista;
+};
+
+class Binario{
+	public:
+		Binario(){
+			raiz = NULL;
+		}
+		
+		//void InsertaNodo(int num);
+		//void InsertaNodo(NodoBinario num);
+		
+		void InsertarRaiz(NodoBinario* n);
+		void InsertarDerecho(NodoBinario* n);
+		void InsertarIzquierdo(NodoBinario *n);
+		
+		void PreordenR(NodoBinario *R);
+		void InordenR(NodoBinario *R);
+		void PostordenR(NodoBinario *R);
+		NodoBinario* RetornarRaiz();
+		
+		
+		
+	private:
+		NodoBinario* raiz;
+		
+};
+
+NodoBinario* Binario::RetornarRaiz(){
+	cout<<raiz->valor<<endl;
+	return raiz;
+}
+
+
+
+/*void NodoBinario::InsertaBinario(int num)
+	{
+
+	if(num<valor){
+		if(Hizq==NULL){
+			Hizq = new NodoBinario(num);
+		}else{
+			Hizq->InsertaBinario(num);
+			}
+	}else{
+		if(Hder==NULL){
+			Hder = new NodoBinario(num);
+		}else{
+			Hder->InsertaBinario(num);
+
+		}
+	}
+	}
+
+void NodoBinario::InsertaBinario(NodoBinario num)
+	{
+
+	if(num<valor){
+		if(Hizq==NULL){
+			Hizq = new NodoBinario(num);
+		}else{
+			Hizq->InsertaBinario(num);
+			}
+	}else{
+		if(Hder==NULL){
+			Hder = new NodoBinario(num);
+		}else{
+			Hder->InsertaBinario(num);
+
+		}
+	}
+	}
+
+void Binario::InsertaNodo(int num)
+	{
+	if(raiz==NULL){
+		raiz = new NodoBinario(num);
+	}else{
+		raiz->InsertaBinario(num);
+	}
+	} 
+*/
+
+
+
+void Binario::InsertarRaiz(NodoBinario* n){
+	raiz = n;
+}
+/*	
+void Binario::InsertarDerecho(NodoBinario* n){
+	Hder = n;	
+}
+
+void Binario::InsertarIzquierdo(NodoBinario* n){
+	Hizq = n;	
+}
+*/
+
+
+/*	
+void Binario::InsertaNodo(NodoBinario num)
+	{
+	if(raiz==NULL & !isdigit(->valor[0]){
+		raiz = new NodoBinario(num);
+	}else{
+		raiz->InsertaBinario(num);
+	}
+	} 
+
+*/
+
+void Binario::PreordenR(NodoBinario *R){
+
+	if(R==NULL){
+		return;
+	
+	}else{
+		cout<<R->valor<<"-";
+		PreordenR(R->Hizq);
+		PreordenR(R->Hder);
+	
+		}
+	}
+
+void Binario::InordenR(NodoBinario *R){
+	
+	if(R==NULL){
+		return;
+	
+		}else{
+			InordenR(R->Hizq);
+			cout<<R->valor<< "-";
+			InordenR(R->Hder);
+		}
+	}
+
+void Binario::PostordenR(NodoBinario *R){
+	if(R==NULL){
+		return;
+	
+	}else{
+		PostordenR(R->Hizq);
+		PostordenR(R->Hder);
+		cout<<R->valor<< "-";
+		}
+	}
+
+//////////////////////////////////////////////////////////FIN ARBOL BINARIO DE BUSQUEDA//////////////////////////////////////////////////////////
+
+
+
+
 
 
 
 class nodo {
    public:
+   	
     nodo(string v)
     {
        valor = v;
        siguiente = NULL;
     }
 
-nodo(string v, nodo * signodo)
-    {
-       valor = v;
-       siguiente = signodo;
-    }
-    
+	nodo(string v, nodo * signodo)
+	    {
+	       valor = v;
+	       siguiente = signodo;
+	    }
+	    
 
-nodo(int v)
-    {
-       valor = v;
-       siguiente = NULL;
-    }
-    
-nodo(int v, nodo * signodo)
-    {
-       valor = v;
-       siguiente = signodo;
-    }
-    
+	nodo(int v)
+	    {
+	       valor = v;
+	       siguiente = NULL;
+	    }
+	    
+	nodo(int v, nodo * signodo)
+	    {
+	       valor = v;
+	       siguiente = signodo;
+	    }
+
+///////////////CONSTRUCTOR NODOS CON NODOS DE ARBOL///////////
+
+	nodo(NodoBinario v)
+	    {
+	       valorABB = v;
+	       siguiente = NULL;
+	    }
+	    
+	nodo(NodoBinario v, nodo * signodo)
+	    {
+	       valorABB = v;
+	       siguiente = signodo;
+	    }
+///////////////FIN CONSTRUCTOR NODOS CON NODOS DE ARBOL///////////
+
    private:
     string valor;
+    NodoBinario valorABB;
+    
     nodo *siguiente;
     
         
    friend class lista;
+   friend class NodoBinario;
 };
 
 typedef nodo *pnodo;
@@ -55,9 +282,14 @@ class lista {
     ~lista();
     
     void InsertarInicio(string v);
+    
     void InsertarFinal(string v);
     void InsertarFinal(int v);
-    void InsertarPos (string v, int pos);
+    void InsertarFinal(NodoBinario v);
+    
+    //NodoBinario BorrarFinal();
+	
+	void InsertarPos (string v, int pos);
     void EliminarInicio();
     void EliminarFinal();
     void EliminarPos(int pos);
@@ -77,7 +309,7 @@ class lista {
     pnodo RetornarPrimero();
     string LeerPrimerCaracter(string num_archivo);
     lista recorrer();
-    string retUltimo();
+    NodoBinario retUltimo();
     void evaluar();
     int evaluarNumeros(int numero1, int numero2, string operacion);
     void buscarParentesis(int cantidad);
@@ -106,10 +338,16 @@ class Stack: public lista{
 		Stack():lista(){
 			//tope = actual = NULL;
 		}
-		void InsertarFinal(string v); //Push
-		void EliminarFinal(); //Pop
-		//void Push();
-		//void Pop();
+		//void InsertarFinal(string v); //Push
+		//void EliminarFinal(); //Pop
+		void Push(string v){
+			NodoBinario _nodo = NodoBinario(v);
+			
+			InsertarFinal(_nodo);
+		}
+		void Pop(){
+			BorrarFinal();
+		}
 	private:
 		pnodo tope;
 		
@@ -133,6 +371,24 @@ int lista::largoLista(){
 }
 
 
+//////////////INSERTAR NODOS DE ARBOL//////////////
+void lista::InsertarFinal (NodoBinario v)
+	{
+   if (ListaVacia())
+     primero = new nodo(v);
+   else
+     { pnodo aux = primero;
+        while ( aux->siguiente != NULL)
+          aux= aux->siguiente;
+        aux->siguiente=new nodo(v);
+      }    
+	}
+//////////////FIN INSERTAR NODOS DE ARBOL//////////////
+
+
+
+
+
 void lista::InsertarInicio(string v)
 {
    if (ListaVacia())
@@ -153,6 +409,8 @@ void lista::InsertarFinal (string v)
         aux->siguiente=new nodo(v);
       }    
 }
+
+
 
 void lista::InsertarFinal (int v)
 {
@@ -193,6 +451,36 @@ void lista::InsertarPos(string v,int pos)
       
 void lista::BorrarFinal()
 {
+	
+    if (ListaVacia()){
+     cout << "No hay elementos en la lista:" << endl;
+    
+   }else{
+        if (primero->siguiente == NULL) {
+        	(primero->valorABB).getValor();
+        	cout << typeid(primero).name() << endl;
+        	cout<<primero->valor<<endl;
+                primero= NULL;
+            } else {
+
+                pnodo aux = primero;
+                while (aux->siguiente->siguiente != NULL) {
+                    aux = aux->siguiente;
+
+                }
+                
+              pnodo temp = aux->siguiente;
+              aux->siguiente= NULL;
+
+                cout<<"PBAAAA: "<< temp<<endl;
+                delete temp;
+            }
+        }
+}
+/*
+NodoBinario lista::BorrarFinal()
+{
+	NodoBinario ultimo;
     if (ListaVacia()){
      cout << "No hay elementos en la lista:" << endl;
     
@@ -208,6 +496,7 @@ void lista::BorrarFinal()
                 }
                 
               pnodo temp = aux->siguiente;
+              ultimo = (aux->siguiente)->valor;
               aux->siguiente= NULL;
 
                 
@@ -215,7 +504,7 @@ void lista::BorrarFinal()
             }
         }
 }
-
+*/
 void lista::BorrarInicio()
 {
     if (ListaVacia()){
@@ -292,17 +581,20 @@ void lista::Ultimo()
       while(actual->siguiente) Siguiente();
 } 
 
-string lista :: retUltimo(){ //Retorna el ultimo valor de una lista 
+NodoBinario lista :: retUltimo(){ //Retorna el ultimo NODOBINARIO de una lista 
 	pnodo aux;
 	aux = primero;
 	
 	while (aux ->siguiente != NULL){
 		aux = aux ->siguiente;
 	}
-	
-	return aux->valor;
+	cout<<(aux->valorABB.getValor())<<endl;
+	return aux->valorABB;
 }
 
+//NodoBinario * NodoBinario::retRefRaiz(){
+//	NodoBinario * 
+//}
 
 string lista::LeerPrimerCaracter(string num_archivo) //Esta funcion saca solo la primera linea del .txt y lo mete en Arch1
 	{
@@ -404,13 +696,14 @@ int prioriFP (string s){
   return pFP [s];  
 }
 	
-	
+/*	
 lista lista :: recorrer(){ //recorre la lista que contiene la expresion original
-
+	
+	Binario ABB;
 	pnodo aux;
 	aux = primero;
-	lista listaTemp;
-	lista pilaPosFijo;
+	Stack listaTemp;
+	Stack pilaPosFijo;
 	int contPar = 0;
 	
 	while (aux){
@@ -421,33 +714,37 @@ lista lista :: recorrer(){ //recorre la lista que contiene la expresion original
 		}
 		if (isdigit(aux->valor[0])){  //Si es numero, la pone en el posfijo de una vez
 			
-			pilaPosFijo.InsertarFinal(aux->valor);
+			pilaPosFijo.Push(aux->valor);
 			
 		
 		}else{
 		
 			if (listaTemp.ListaVacia()){  //Si la listatemp de simbolos esta vacia, mete el operador de una vez
-				listaTemp.InsertarFinal(aux->valor);
+				listaTemp.Push(aux->valor);
 				
 			}else{
 				
-				if (aux->valor == ")"){ 
-					while (listaTemp.retUltimo()!= "("){
-						pilaPosFijo.InsertarFinal(listaTemp.retUltimo());
-					    listaTemp.BorrarFinal();
+				if (aux->valor == ")"){
+				 
+					while ((listaTemp.retUltimo())->valorABB != "("){
+						ABB.InsertarRaiz(listaTemp.retUltimo())
+						
+						
+						pilaPosFijo.Push(listaTemp.retUltimo());
+					    listaTemp.Pop();
 					}
-					listaTemp.BorrarFinal();
+					listaTemp.Pop();
 					
 						
 				}else{
 					
 					if (prioriDP(listaTemp.retUltimo()) >= prioriFP(aux->valor)){ 
-					pilaPosFijo.InsertarFinal(listaTemp.retUltimo());
-					listaTemp.BorrarFinal();
-					listaTemp.InsertarFinal(aux->valor);
+					pilaPosFijo.Push(listaTemp.retUltimo());
+					listaTemp.Pop();
+					listaTemp.Push(aux->valor);
 					
 					}else{
-					listaTemp.InsertarFinal(aux->valor);
+					listaTemp.Push(aux->valor);
 					}
 				
 					
@@ -472,7 +769,7 @@ lista lista :: recorrer(){ //recorre la lista que contiene la expresion original
 	pilaPosFijo.Mostrar();
 	return pilaPosFijo;
 	}
-	
+*/	
 //Evalua la expresion posfijo 
 void lista::evaluar()
 	{
@@ -632,71 +929,25 @@ int main()
 	lista Arch5;
 	
 	string cont = "1";
-	/*
-	string PrimerCaracter = Arch1.LeerPrimerCaracter(cont); //Esto es para meter el primer caracter a la lista y crear un primero
-	Arch1.InsertarFinal(PrimerCaracter); //Se inserta el primer caracter a la lista (pila)
-	pnodo primero = Arch1.RetornarPrimero(); //Retorna el puntero "primero" de la lista para pegarlo a la cola
-	ExpOriginal.insertar(primero); //Inserta el puntero a la NodoLista
-	Arch1.LeerArchivo(cont); //LeerArchivo saca todos los demas elementos de la expresion y los mete a la lista (pila) Arch1
-	lista ExpresionPostfijo = Arch1.recorrer();
-	ExpresionPostfijo.evaluar();
-	*/
-	Stack Pila;
-	Pila.InsertarFinal("Hola");
+	NodoBinario* dere = new NodoBinario("55");
+	NodoBinario* izqu = new NodoBinario("999");
 	
-	/*
-	cout<<"Presione ENTER para evaluar el siguiente archivo"<<endl;
-	cin.get();
+	Stack PilaJIJI;
+	PilaJIJI.Push("3");
+	PilaJIJI.Push("78");
+	(PilaJIJI.retUltimo()).getValor();
 	
+	Binario abb;
 	
-
-	cont = "2";
-	PrimerCaracter = Arch2.LeerPrimerCaracter(cont); 
-	Arch2.InsertarFinal(PrimerCaracter); 
-	primero = Arch2.RetornarPrimero(); 
-	ExpOriginal.insertar(primero); 
-	Arch2.LeerArchivo(cont);
-	Arch2.recorrer();
-	lista ExpresionPostfijo2 = Arch2.recorrer();
-	ExpresionPostfijo2.evaluar();
+	NodoBinario * ndo = new NodoBinario("+", izqu, dere);
+	abb.InsertarRaiz(ndo);
 	
-	cout<<"Presione ENTER para evaluar el siguiente archivo"<<endl;
-	cin.get();
+	abb.InordenR(abb.RetornarRaiz());
 	
+	//PilaJIJI.retUltimo();
 	
-	cont = "3";
-	PrimerCaracter = Arch3.LeerPrimerCaracter(cont); 
-	Arch3.InsertarFinal(PrimerCaracter); 
-	primero = Arch3.RetornarPrimero(); 
-	ExpOriginal.insertar(primero); 
-	Arch3.LeerArchivo(cont); 
-	Arch3.recorrer();
-	lista ExpresionPostfijo3 = Arch3.recorrer();
-	ExpresionPostfijo3.evaluar();
-	
-	
-	cout<<"Presione ENTER para evaluar el siguiente archivo"<<endl;
-	cin.get();
-	
-	
-	
-	
-	cont = "4";
-	PrimerCaracter = Arch4.LeerPrimerCaracter(cont); 
-	Arch4.InsertarFinal(PrimerCaracter); 
-	primero = Arch4.RetornarPrimero(); 
-	ExpOriginal.insertar(primero); 
-	Arch4.LeerArchivo(cont); 
-	Arch4.recorrer();
-	lista ExpresionPostfijo4 = Arch4.recorrer();
-	ExpresionPostfijo4.evaluar();
-	
-	
-	
-	cout<<"Presione ENTER para evaluar el siguiente archivo"<<endl;
-	cin.get();
-	
-	
+	//PilaJIJI.Pop();
+	/*	
 	cont = "5";
 	PrimerCaracter = Arch5.LeerPrimerCaracter(cont); 
 	Arch5.InsertarFinal(PrimerCaracter); 
