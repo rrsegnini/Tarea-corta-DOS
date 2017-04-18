@@ -375,6 +375,12 @@ class Stack: public lista{
 		void Push(NodoBinario v){
 			InsertarFinal(v);
 		}
+		void Push(string v, NodoBinario *_der, NodoBinario* _izq){
+			NodoBinario _nodo = NodoBinario(v, _izq, _der);
+			
+			InsertarFinal(_nodo);
+		}
+		
 		void Pop(){
 			BorrarFinal();
 		}
@@ -743,7 +749,7 @@ lista lista :: recorrer(){ //recorre la lista que contiene la expresion original
 			
 		}
 		if (isdigit(aux->valor[0])){  //Si es numero, la pone en el posfijo de una vez
-			
+			cout<<"EJEJEJE: "<<aux->valor<<endl;
 			pilaPosFijo.Push(aux->valor);
 			
 		
@@ -802,19 +808,30 @@ lista lista :: recorrer(){ //recorre la lista que contiene la expresion original
 	
 	if ((listaTemp.retUltimo()).getValor() != ")"){
 		//pilaPosFijo.InsertarFinal(listaTemp.retUltimo());
+		//cout<<"PRUEBA: " << (pilaPosFijo.retUltimo()).getValor()<<endl;
 		NodoBinario* nodoDerecho = new NodoBinario((pilaPosFijo.retUltimo()).getValor(), (pilaPosFijo.retUltimo()).getHizq(), (pilaPosFijo.retUltimo()).getHder());
+		if (((pilaPosFijo.retUltimo()).getHizq())){
+		
+			cout<<"El hijo izquierdo jiji: "<<((pilaPosFijo.retUltimo()).getHizq())->getValor()<<endl;
+			}
+			
 		pilaPosFijo.Pop();
 						
 		NodoBinario* nodoIzquierdo = new NodoBinario((pilaPosFijo.retUltimo()).getValor(), (pilaPosFijo.retUltimo()).getHizq(), (pilaPosFijo.retUltimo()).getHder());
 		pilaPosFijo.Pop();
 						
-		(listaTemp.retUltimo()).setHder(nodoDerecho);
-		(listaTemp.retUltimo()).setHizq(nodoIzquierdo);
+		//(listaTemp.retUltimo()).setHder(nodoDerecho);
+		//(listaTemp.retUltimo()).setHizq(nodoIzquierdo);
 						
-		pilaPosFijo.Push((listaTemp.retUltimo()));
+		pilaPosFijo.Push((listaTemp.retUltimo()).getValor(), nodoDerecho, nodoIzquierdo);
 						
 		listaTemp.Pop();
+		
+		//cout<<"LA RAIZ: "<<((pilaPosFijo.retUltimo()).getHizq())->getValor()<<endl;
 	}
+	//else{
+		
+	//}
 	
 
 	//cout<< "PosFijo: ";
@@ -826,7 +843,7 @@ lista lista :: recorrer(){ //recorre la lista que contiene la expresion original
 	NodoBinario* raizABB = new NodoBinario(final.getValor(), final.getHizq(), final.getHder());
 	ABB.InsertarRaiz(raizABB);
 	cout<<"Hijo: "<<raizABB->getHder()<<endl;
-	//ABB.InordenR(ABB.RetornarRaiz());
+	ABB.InordenR(ABB.RetornarRaiz());
 	
 	
 	
@@ -1008,7 +1025,7 @@ int main()
  	
 	
 	/*
-	NodoBinario dere = NodoBinario("66");
+	NodoBinario dere = NodoBinario("66", NULL, NULL);
 	NodoBinario* izqu = new NodoBinario("1000");
 	
 	Stack PilaJIJI;
