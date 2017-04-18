@@ -217,7 +217,6 @@ void Binario::PreordenR(NodoBinario *R){
 void Binario::InordenR(NodoBinario *R){
 	
 	if(R==NULL){
-		//cout<<"NULONULONULONULONULO"<<endl;
 		return;
 	
 		}else{
@@ -225,6 +224,7 @@ void Binario::InordenR(NodoBinario *R){
 			cout<<R->valor<< "-";
 			InordenR(R->Hder);
 		}
+	
 	}
 
 void Binario::PostordenR(NodoBinario *R){
@@ -785,7 +785,20 @@ lista lista :: recorrer(){ //recorre la lista que contiene la expresion original
 				}else{
 					
 					if (prioriDP((listaTemp.retUltimo()).getValor())>= prioriFP(aux->valor)){ 
-					pilaPosFijo.Push(listaTemp.retUltimo());
+					
+					NodoBinario* nodoDerecho = new NodoBinario((pilaPosFijo.retUltimo()).getValor(), (pilaPosFijo.retUltimo()).getHizq(), (pilaPosFijo.retUltimo()).getHder());
+					pilaPosFijo.Pop();
+						
+					NodoBinario* nodoIzquierdo = new NodoBinario((pilaPosFijo.retUltimo()).getValor(), (pilaPosFijo.retUltimo()).getHizq(), (pilaPosFijo.retUltimo()).getHder());
+					pilaPosFijo.Pop();
+						
+					(listaTemp.retUltimo()).setHder(nodoDerecho);
+					(listaTemp.retUltimo()).setHizq(nodoIzquierdo);
+						
+						//pilaPosFijo.Push((listaTemp.retUltimo()));
+					pilaPosFijo.Push((listaTemp.retUltimo()).getValor(), nodoDerecho, nodoIzquierdo);
+						
+					//pilaPosFijo.Push(listaTemp.retUltimo());
 					listaTemp.Pop();
 					listaTemp.Push(aux->valor);
 					
@@ -809,6 +822,8 @@ lista lista :: recorrer(){ //recorre la lista que contiene la expresion original
 	if ((listaTemp.retUltimo()).getValor() != ")"){
 		//pilaPosFijo.InsertarFinal(listaTemp.retUltimo());
 		//cout<<"PRUEBA: " << (pilaPosFijo.retUltimo()).getValor()<<endl;
+		while(!listaTemp.ListaVacia()){
+		
 		NodoBinario* nodoDerecho = new NodoBinario((pilaPosFijo.retUltimo()).getValor(), (pilaPosFijo.retUltimo()).getHizq(), (pilaPosFijo.retUltimo()).getHder());
 		if (((pilaPosFijo.retUltimo()).getHizq())){
 		
@@ -826,7 +841,7 @@ lista lista :: recorrer(){ //recorre la lista que contiene la expresion original
 		pilaPosFijo.Push((listaTemp.retUltimo()).getValor(), nodoDerecho, nodoIzquierdo);
 						
 		listaTemp.Pop();
-		
+		}
 		//cout<<"LA RAIZ: "<<((pilaPosFijo.retUltimo()).getHizq())->getValor()<<endl;
 	}
 	//else{
@@ -841,9 +856,14 @@ lista lista :: recorrer(){ //recorre la lista que contiene la expresion original
 	
 	//NodoBinario* raizABB = new NodoBinario((pilaPosFijo.retUltimo()).getValor(), (pilaPosFijo.retUltimo()).getHizq(), (pilaPosFijo.retUltimo()).getHder());
 	NodoBinario* raizABB = new NodoBinario(final.getValor(), final.getHizq(), final.getHder());
+	cout<<endl;
 	ABB.InsertarRaiz(raizABB);
 	//cout<<"Hijo: "<<raizABB->getHder()<<endl;
 	ABB.InordenR(ABB.RetornarRaiz());
+	cout<<endl;
+	ABB.PostordenR(ABB.RetornarRaiz());
+	cout<<endl;
+	ABB.PreordenR(ABB.RetornarRaiz());
 	
 	
 	
