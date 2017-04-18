@@ -763,7 +763,7 @@ lista lista :: recorrer(){ //recorre la lista que contiene la expresion original
 				if (aux->valor == ")"){
 				 
 					while ((listaTemp.retUltimo()).getValor() != "("){
-						NodoBinario temp = (pilaPosFijo.retUltimo());
+						//NodoBinario temp = (pilaPosFijo.retUltimo());
 						
 						NodoBinario* nodoDerecho = new NodoBinario((pilaPosFijo.retUltimo()).getValor(), (pilaPosFijo.retUltimo()).getHizq(), (pilaPosFijo.retUltimo()).getHder());
 						pilaPosFijo.Pop();
@@ -774,8 +774,8 @@ lista lista :: recorrer(){ //recorre la lista que contiene la expresion original
 						(listaTemp.retUltimo()).setHder(nodoDerecho);
 						(listaTemp.retUltimo()).setHizq(nodoIzquierdo);
 						
-						pilaPosFijo.Push((listaTemp.retUltimo()));
-						
+						//pilaPosFijo.Push((listaTemp.retUltimo()));
+						pilaPosFijo.Push((listaTemp.retUltimo()).getValor(), nodoDerecho, nodoIzquierdo);
 						listaTemp.Pop();
 						
 					}
@@ -842,7 +842,7 @@ lista lista :: recorrer(){ //recorre la lista que contiene la expresion original
 	//NodoBinario* raizABB = new NodoBinario((pilaPosFijo.retUltimo()).getValor(), (pilaPosFijo.retUltimo()).getHizq(), (pilaPosFijo.retUltimo()).getHder());
 	NodoBinario* raizABB = new NodoBinario(final.getValor(), final.getHizq(), final.getHder());
 	ABB.InsertarRaiz(raizABB);
-	cout<<"Hijo: "<<raizABB->getHder()<<endl;
+	//cout<<"Hijo: "<<raizABB->getHder()<<endl;
 	ABB.InordenR(ABB.RetornarRaiz());
 	
 	
