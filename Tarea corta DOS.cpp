@@ -17,21 +17,9 @@ using namespace std;
 class NodoBinario{
 	public:
 		NodoBinario(){
-			//cout<<"JAJA"<<endl;
-			//Hder = 
 		}
-		/*
-		NodoBinario(int v){
-		valor = v;
-		Hizq = NULL;
-		Hder = NULL;
-		}
-		*/
-		
+	
 		NodoBinario(string v, NodoBinario*i, NodoBinario*d){
-		//if (i!=NULL & d!=NULL){
-			//cout<<"ESTE ES EL HIJO DERECHO Y EL IZQUIERDO "<<d<<"  "<<i<<endl;
-		//}
 		valor = v;
 		Hizq = i;
 		Hder = d;
@@ -43,32 +31,22 @@ class NodoBinario{
 		Hder = NULL;
 		}
 		
-		//void InsertaBinario(string num);
+		
 		void InsertaBinario(int num);
-		//void InsertaBinario(NodoBinario num);
+	
 		
 		string getValor(){
-			cout<<valor<<endl;
 			return valor;
 		}
 		void setValor(string v){
-			cout<<"Aquí hay un " <<valor<<endl;
 			valor = v;
 		}
 		
 		NodoBinario* getHizq(){
-			if (Hizq)
-			{
-				cout<<"ESTE ES EL HIJO IZQUIERDO: " <<Hizq->valor<<endl;
-			}
 			return Hizq;
 		}
 		
 		NodoBinario* getHder(){
-			if (Hizq)
-			{
-				cout<<"ESTE ES EL HIJO DERECHO: " <<Hder->valor<<endl;
-			}
 			return Hder;
 		}
 		
@@ -76,12 +54,7 @@ class NodoBinario{
 			Hizq = izq;
 		}
 		void setHder(NodoBinario* der){
-			if (!der){
-				cout<<"Es nulo"<<endl;
-			}
 			Hder = der;
-			cout<<Hder<<endl;
-			
 		}
 		
 		
@@ -100,9 +73,6 @@ class Binario{
 			raiz = NULL;
 		}
 		
-		//void InsertaNodo(int num);
-		//void InsertaNodo(NodoBinario num);
-		
 		void InsertarRaiz(NodoBinario* n);
 		void InsertarDerecho(NodoBinario* n);
 		void InsertarIzquierdo(NodoBinario *n);
@@ -112,7 +82,7 @@ class Binario{
 		void PostordenR(NodoBinario *R);
 		NodoBinario* RetornarRaiz();
 		double evaluar();
-		double evaluarAux(NodoBinario* r);
+		double evaluarAux(NodoBinario* r, ofstream& myfile);
 		double operacion(double num1, double num2, string op);
 		
 		
@@ -124,59 +94,10 @@ class Binario{
 };
 
 NodoBinario* Binario::RetornarRaiz(){
-	cout<<raiz->valor<<endl;
 	return raiz;
 }
 
 
-
-/*void NodoBinario::InsertaBinario(int num)
-	{
-
-	if(num<valor){
-		if(Hizq==NULL){
-			Hizq = new NodoBinario(num);
-		}else{
-			Hizq->InsertaBinario(num);
-			}
-	}else{
-		if(Hder==NULL){
-			Hder = new NodoBinario(num);
-		}else{
-			Hder->InsertaBinario(num);
-
-		}
-	}
-	}
-
-void NodoBinario::InsertaBinario(NodoBinario num)
-	{
-
-	if(num<valor){
-		if(Hizq==NULL){
-			Hizq = new NodoBinario(num);
-		}else{
-			Hizq->InsertaBinario(num);
-			}
-	}else{
-		if(Hder==NULL){
-			Hder = new NodoBinario(num);
-		}else{
-			Hder->InsertaBinario(num);
-
-		}
-	}
-	}
-
-void Binario::InsertaNodo(int num)
-	{
-	if(raiz==NULL){
-		raiz = new NodoBinario(num);
-	}else{
-		raiz->InsertaBinario(num);
-	}
-	} 
-*/
 
 
 
@@ -370,10 +291,7 @@ lista::~lista()
 class Stack: public lista{
 	public:
 		Stack():lista(){
-			//tope = actual = NULL;
 		}
-		//void InsertarFinal(string v); //Push
-		//void EliminarFinal(); //Pop
 		void Push(string v){
 			NodoBinario _nodo = NodoBinario(v);
 			
@@ -394,19 +312,21 @@ class Stack: public lista{
 		}
 	private:
 		pnodo tope;
-	//friend class Binario;	
 };
 
 //////////////
 double Binario::evaluar(){
 	Stack pilaOperandos;
 	NodoBinario * r = raiz;
-	evaluarAux(r);
-	//cout<<pilaOperandos.retUltimo().getValor()<<endl;
+	ofstream myfile;
+	myfile.open ("Operandos.txt");
+	evaluarAux(r, myfile);
+	
 }
 Stack pilaOperandos;
-double Binario::evaluarAux(NodoBinario* r){
+double Binario::evaluarAux(NodoBinario* r, ofstream &myfile){
 	double resultado;
+	
 	
 	if (r == NULL){
 		cout<<stod(pilaOperandos.retUltimo().getValor())<<endl;
@@ -415,29 +335,31 @@ double Binario::evaluarAux(NodoBinario* r){
 	}
 	
 	if (r->Hizq != NULL){
-		evaluarAux(r->Hizq);
-		//r = r->Hizq	
+		evaluarAux(r->Hizq, myfile);
+
 	}
 	if (r->Hder != NULL){
-		evaluarAux(r->Hder);
+		evaluarAux(r->Hder, myfile);
 		double a= std::stod(pilaOperandos.retUltimo().getValor());
 		pilaOperandos.Pop();
 		
 		double b= std::stod(pilaOperandos.retUltimo().getValor());
-		cout<<"ES B: "<<b<<endl;
 		pilaOperandos.Pop();
 		
 		resultado = operacion(b, a, r->getValor());
 		
 		pilaOperandos.Push(std::to_string(resultado));
-		
+			
+  		myfile << to_string(resultado) <<endl;
+			
 		r = NULL;
-		evaluarAux(r);
+		evaluarAux(r, myfile);
 		
 		
 	}
 	else{
 		pilaOperandos.Push(r->getValor());
+  		myfile << r->getValor()<<endl;
 		r = NULL;
 	}
 }
@@ -1116,12 +1038,7 @@ int main()
 	Binario pba = Arch1.recorrer();
 	pba.evaluar();
 	
-	double a = std::stod("1.5");
-	//cout.precision(15);
-	//cout << std::setprecision(15) << (double)a << endl;
-	cout<<a<<endl;
-
- 	//ExpresionPostfijo.evaluar();
+	
  	
 	
 	/*
