@@ -8,6 +8,7 @@
 #include <map>
 #include <cmath> 
 #include <typeinfo>
+#include <iomanip>
 
 using namespace std;
 
@@ -90,7 +91,7 @@ class NodoBinario{
 		NodoBinario * Hizq;
 		NodoBinario * Hder;
 	friend class Binario;
-	friend class lista;
+	//friend class lista;
 };
 
 class Binario{
@@ -110,11 +111,15 @@ class Binario{
 		void InordenR(NodoBinario *R);
 		void PostordenR(NodoBinario *R);
 		NodoBinario* RetornarRaiz();
+		double evaluar();
+		double evaluarAux(NodoBinario* r);
+		double operacion(double num1, double num2, string op);
 		
 		
 		
 	private:
 		NodoBinario* raiz;
+		//friend class Stack;
 		
 };
 
@@ -201,8 +206,10 @@ void Binario::InsertaNodo(NodoBinario num)
 
 */
 
-void Binario::PreordenR(NodoBinario *R){
 
+
+void Binario::PreordenR(NodoBinario *R){
+	
 	if(R==NULL){
 		return;
 	
@@ -298,6 +305,7 @@ class nodo {
         
    friend class lista;
    friend class NodoBinario;
+   friend class Binario;
 };
 
 typedef nodo *pnodo;
@@ -334,7 +342,7 @@ class lista {
     int LeerArchivo(string num_archivo);
     pnodo RetornarPrimero();
     string LeerPrimerCaracter(string num_archivo);
-    void recorrer();
+    Binario recorrer();
     NodoBinario retUltimo();
     void evaluar();
     int evaluarNumeros(int numero1, int numero2, string operacion);
@@ -386,8 +394,70 @@ class Stack: public lista{
 		}
 	private:
 		pnodo tope;
-		
+	//friend class Binario;	
 };
+
+//////////////
+double Binario::evaluar(){
+	Stack pilaOperandos;
+	NodoBinario * r = raiz;
+	evaluarAux(r);
+	//cout<<pilaOperandos.retUltimo().getValor()<<endl;
+}
+Stack pilaOperandos;
+double Binario::evaluarAux(NodoBinario* r){
+	double resultado;
+	
+	if (r == NULL){
+		cout<<stod(pilaOperandos.retUltimo().getValor())<<endl;
+		cout << std::setprecision(15) << stod(pilaOperandos.retUltimo().getValor()) << endl;
+		return stod(pilaOperandos.retUltimo().getValor());
+	}
+	
+	if (r->Hizq != NULL){
+		evaluarAux(r->Hizq);
+		//r = r->Hizq	
+	}
+	if (r->Hder != NULL){
+		evaluarAux(r->Hder);
+		double a= std::stod(pilaOperandos.retUltimo().getValor());
+		pilaOperandos.Pop();
+		
+		double b= std::stod(pilaOperandos.retUltimo().getValor());
+		cout<<"ES B: "<<b<<endl;
+		pilaOperandos.Pop();
+		
+		resultado = operacion(b, a, r->getValor());
+		
+		pilaOperandos.Push(std::to_string(resultado));
+		
+		r = NULL;
+		evaluarAux(r);
+		
+		
+	}
+	else{
+		pilaOperandos.Push(r->getValor());
+		r = NULL;
+	}
+}
+
+double Binario::operacion(double numero1, double numero2, string op){
+	map <string, double> pFP;
+  	if (op == "/" && numero2 == 0){
+  		cout<<"Error: Division entre cero"<<endl;
+  		return 0;
+	  }
+  	pFP["("]= 0;
+	pFP["+"]= numero1+numero2;
+	pFP["-"]= numero1-numero2;
+	pFP["*"]= numero1*numero2;
+	pFP["/"]= static_cast<double>(numero1)/static_cast<double>(numero2);
+	pFP["^"]= pow(numero1, numero2);
+	
+	return pFP [op]; 
+}
+//////////////
 
 int lista::largoLista(){
     int cont=0;
@@ -735,7 +805,7 @@ int prioriFP (string s){
 }
 	
 
-void lista :: recorrer(){ //recorre la lista que contiene la expresion original
+Binario lista :: recorrer(){ //recorre la lista que contiene la expresion original
 	
 	Binario ABB;
 	pnodo aux;
@@ -872,7 +942,7 @@ void lista :: recorrer(){ //recorre la lista que contiene la expresion original
 	
 	
 	
-	//return pilaPosFijo;
+	return ABB;
 	}
 	
 //Evalua la expresion posfijo 
@@ -1024,6 +1094,7 @@ void NodoLista:: imprimir(){
 
 int main()
 	{
+	
 	NodoLista ExpOriginal; //La cola con los punteros 
 	
 	
@@ -1042,9 +1113,13 @@ int main()
  	Arch1.LeerArchivo(cont); //LeerArchivo saca todos los demas elementos de la expresion y los mete a la lista (pila) Arch1
  	
 	 
-	Arch1.recorrer();
-
+	Binario pba = Arch1.recorrer();
+	pba.evaluar();
 	
+	double a = std::stod("1.5");
+	//cout.precision(15);
+	//cout << std::setprecision(15) << (double)a << endl;
+	cout<<a<<endl;
 
  	//ExpresionPostfijo.evaluar();
  	
